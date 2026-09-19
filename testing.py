@@ -103,7 +103,7 @@ def first_come_first_serve(query,context_switching=0):
 
     for i in range (len(question)) :
         if i == 0 :
-            pass
+            waiting = question[0][2]
         elif (answer[i-1][1]+answer[i-1][2]) >= question[i][2]:
             waiting = answer[i-1][1]+answer[i-1][2]
         elif (answer[i-1][1]+answer[i-1][2]) < question[i][2]:
