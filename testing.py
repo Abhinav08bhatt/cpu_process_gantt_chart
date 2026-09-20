@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 
 from helper.helper_functions import remove_duplicate
 
-def create_gantt_chart(time_line):
+def create_gantt_chart(time_line,question):
 
     timeline = time_line
 
@@ -22,9 +22,13 @@ def create_gantt_chart(time_line):
         position = position+(len(remove_duplicate(processes)))
     print(y_position)
 
-    fig, gantt_chart = plt.subplots(figsize=(20,6))
+    fig, (gantt_chart, table_ax) = plt.subplots(2, 1, gridspec_kw={'height_ratios': [1, 1]})
 
     points = []
+    header_for_table = ["Processes","Arrival T","Burst T","Completion T","Turnaround T","Waiting T"]
+    rows_for_table = []
+
+    i = 0
     for process, start, duration in timeline:
         y = y_position[process]
 
@@ -45,6 +49,12 @@ def create_gantt_chart(time_line):
         points.append(start)
         points.append(start+duration)
 
+        print("qus : ",question[i])
+
+        #                     ["Processes"   ,"Arrival T"   ,"Burst T"     ,"Completion T"      ,"Turnaround T"                       ,"Waiting T"                                                     ]
+        rows_for_table.append([question[i][0],question[i][2],question[i][1],start+question[i][1],(start+question[i][1])-question[i][2],((start+question[i][1])-question[i][2])-question[i][1]])
+        i+=1
+
     gantt_chart.set_xticks(points)
 
     y_ticks = []
@@ -61,6 +71,14 @@ def create_gantt_chart(time_line):
 
     gantt_chart.set_xlim(0,(timeline[-1][1]+timeline[-1][2]+1))
     gantt_chart.grid(True,color='lightgrey')
+
+    table_ax.axis('off')
+    table = table_ax.table(
+        cellText=rows_for_table,          # 2D list: [[val1, val2, ...], ...]
+        colLabels=header_for_table,      # 1D list: ["Col 1", "Col 2", ...]
+        loc='center',           # Anchor: 'top', 'center', 'bottom'
+        cellLoc='center'        # Text alignment: 'center', 'left', 'right'
+    )
 
     # TODO : add the IDLE state graph 
         # gantt_chart.axvspan(3, 5, color="lightgrey", alpha=0.15, hatch="//")
@@ -134,8 +152,8 @@ def main():
     # ]
 
     question = [
-        ['P1',10,0],
         ['P2',5,15],
+        ['P1',10,0],
         ['P3',5,15],
         ['P4',10,23],
     ]
@@ -144,4 +162,6 @@ def main():
 
     print(answer)
 
-    create_gantt_chart(answer)
+    create_gantt_chart(answer,question)
+
+main()
