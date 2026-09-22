@@ -147,7 +147,7 @@ def shortest_job_first(query):
     queue = []
     time = 0
 
-    print(question)
+    print("question : ",question)
 
     arrival_times = []
     for i in question:
@@ -163,9 +163,7 @@ def shortest_job_first(query):
         temp.sort(key=lambda x : x[1])
         queue.append(temp)
 
-    print(queue)
-
-    waiting = queue[0][0][2]
+    print("queue : ",queue)
 
     #for i in range (len(queue)):
         #for j in queue[i]:
@@ -176,24 +174,35 @@ def shortest_job_first(query):
             #     waiting = 
 
         #answer.append([question[i][0],waiting,question[i][1]])
+
+    answer_i = -1
     for i in range (len(queue)):
         for j in range (len(queue[i])):
             if i == 0 and j == 0:
                 waiting = queue[i][j][2]
-            elif answer(
-            answer.append([queue[i][j][0],queue[i][j][2]+waiting,queue[i][j][1]])
+            elif answer[answer_i][1]+answer[answer_i][2] >= queue[i][j][2]:
+                waiting = answer[answer_i][1]+answer[answer_i][2]
+            elif answer[answer_i][1]+answer[answer_i][2] < queue[i][j][2]:
+                waiting = queue[i][j][2]
+
+            answer.append([queue[i][j][0],waiting,queue[i][j][1]])
+            answer_i += 1
         # todo : idk what tf is going on
 
-    print(answer)
+    print("answer : ",answer)
 
-shortest_job_first([
-        ['P2',5,15],
-        ['P1',10,0],
-        ['P5',7,0],
-        ['P6',8,0],
-        ['P3',3,15],
-        ['P4',10,23],
-    ])
+    return answer
+
+# shortest_job_first([
+#         ["P3", 1, 5],  
+#         ["P7", 12, 28],
+#         ["P1", 8, 1], 
+#         ["P5", 4, 7],  
+#         ["P2", 2, 3],  
+#         ["P4", 4, 7],  
+#         ["P8", 2, 35], 
+#         ["P6", 3, 7],  
+#     ])
 
 
 def main():
@@ -212,16 +221,21 @@ def main():
     # ]
 
     question = [
-        ['P2',5,15],
-        ['P1',10,0],
-        ['P3',3,15],
-        ['P4',10,23],
+        ["P3", 1, 5],  
+        ["P7", 8, 28],
+        ["P1", 5, 1], 
+        ["P5", 4, 7],  
+        ["P2", 2, 3],  
+        ["P4", 4, 7],  
+        ["P8", 2, 35], 
+        ["P6", 3, 7],  
     ]
 
-    answer = first_come_first_serve(question)
+    # answer = first_come_first_serve(question)
+    answer = shortest_job_first(question)
 
     print(answer)
 
     create_gantt_chart(answer,question)
 
-# main()
+main()
