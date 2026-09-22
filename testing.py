@@ -134,6 +134,61 @@ def first_come_first_serve(query,context_switching=0):
     return answer
 
 
+def shortest_job_first(query):
+
+    # question = [ [ process_id , cpu-burst , arrival-time ] , [...] ]
+    # answer = [ [ process_id , start-time , duration ] , [...] ]
+
+    question = query
+    question.sort(key=lambda x : x[2])
+
+    answer = []
+
+    queue = []
+    time = 0
+
+    print(question)
+
+    arrival_times = []
+    for i in question:
+        arrival_times.append(i[2])
+
+    arrival_times = remove_duplicate(arrival_times)
+
+    for i in arrival_times:
+        temp = []
+        for j in range(len(question)):
+            if i == question[j][2]:
+                temp.append(question[j])
+        temp.sort(key=lambda x : x[1])
+        queue.append(temp)
+
+    print(queue)
+
+    waiting = queue[0][0][2]
+
+    for i in range (len(queue)):
+        for j in queue[i]:
+            print(j)
+            # if  >= :
+            #     waiting = 
+            # elif  < :
+            #     waiting = 
+
+        answer.append([question[i][0],waiting,question[i][1]])
+
+    # todo : idk what tf is going on
+
+    print(answer)
+
+shortest_job_first([
+        ['P2',5,15],
+        ['P1',10,0],
+        ['P5',7,0],
+        ['P6',8,0],
+        ['P3',3,15],
+        ['P4',10,23],
+    ])
 
 
 def main():
@@ -154,7 +209,7 @@ def main():
     question = [
         ['P2',5,15],
         ['P1',10,0],
-        ['P3',5,15],
+        ['P3',3,15],
         ['P4',10,23],
     ]
 
@@ -164,4 +219,4 @@ def main():
 
     create_gantt_chart(answer,question)
 
-main()
+# main()
