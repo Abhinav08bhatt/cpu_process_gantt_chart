@@ -167,17 +167,22 @@ def shortest_job_first(query):
 
     waiting = queue[0][0][2]
 
-    for i in range (len(queue)):
-        for j in queue[i]:
-            print(j)
+    #for i in range (len(queue)):
+        #for j in queue[i]:
+            #print(j)
             # if  >= :
             #     waiting = 
             # elif  < :
             #     waiting = 
 
-        answer.append([question[i][0],waiting,question[i][1]])
-
-    # todo : idk what tf is going on
+        #answer.append([question[i][0],waiting,question[i][1]])
+    for i in range (len(queue)):
+        for j in range (len(queue[i])):
+            if i == 0 and j == 0:
+                waiting = queue[i][j][2]
+            elif answer(
+            answer.append([queue[i][j][0],queue[i][j][2]+waiting,queue[i][j][1]])
+        # todo : idk what tf is going on
 
     print(answer)
 
